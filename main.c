@@ -149,17 +149,19 @@ int **translate(int **array, int *index1, int width, int height, int *index2) {
     int i, j;
     for (i = 0; i < width; i++) {
         for (j = 0; j < height; j++) {
-            if(x1+width >= x2 || y1+height >= y2){
-                int k , m;
-                for(k = 0; k < x1 + width-x2; k++){
-                    for(m = 0; m < y1+height-y2 ){
-                        int i1[2] = {x2+k, y2+m};
-                        int i2[2] = {};
-                        translate(array,i1, 1,1,)
+            if ((x1 + width >= x2) && (y1 + height >= y2)) {
+                int k, m;
+                for (k = 0; k < x1 + width - x2; k++) {
+                    for (m = 0; m < y1 + height - y2; m++) {
+                        int i1[2] = {x1 + k + i, y1 + m + j};
+                        int i2[2] = {2 * x1 + k + i + width - x2, 2 * y1 + m + j -y2 +height};
+                        translate(array, i1, 1, 1,i2);
                     }
                 }
+            }else{
+                *(*(array + x2 + i) + j + y2) = *(*(array + x1 + i) + j + y1);
             }
-            *(*(array + x2 + i) + j + y2) = *(*(array + x1 + i) + j + y1);
+
         }
     }
     return array;
