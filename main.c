@@ -43,23 +43,23 @@ int **partition(int **matrix, int size, int matrix_size) {
     int **output = multiArray(matrix_size - size + 1, matrix_size - size + 1);
     printf("output allocated\n");
 
-    for( i= 0; i< matrix_size-size +1 ; i++){
+    for (i = 0; i < matrix_size - size + 1; i++) {
 
-        for(j = 0; j< matrix_size-size +1 ; j++){
+        for (j = 0; j < matrix_size - size + 1; j++) {
             int array[size * size];
             for (k = 0; k < size; k++) {
                 for (m = 0; m < size; m++) {
 
-                    if ((*(matrix+i+k)+ j+m) != NULL) {
+                    if ((*(matrix + i + k) + j + m) != NULL) {
                         c++;
                         int value = matrix[i + k][j + m];
                         array[c] = value;
-                        printf(" i = %d j = %d k = %d m = %d\nvalue : %d c : %d \n",i, j ,k, m,value, c);
+                        printf(" i = %d j = %d k = %d m = %d\nvalue : %d c : %d \n", i, j, k, m, value, c);
                     }
                 }
             }
 
-            if(c < size * size -1){
+            if (c < size * size - 1) {
                 printf("less than array\n");
                 c = -1;
                 continue;
@@ -67,7 +67,7 @@ int **partition(int **matrix, int size, int matrix_size) {
 
 
             for (a = 0; a < c; a++) {
-                for (b = 0; b < c-a; b++) {
+                for (b = 0; b < c - a; b++) {
                     if (array[b] < array[b + 1]) {
                         int temp = array[b];
                         array[b] = array[b + 1];
@@ -75,11 +75,11 @@ int **partition(int **matrix, int size, int matrix_size) {
                     }
                 }
             }
-            c = -1 ;
-            count ++;
+            c = -1;
+            count++;
             biggest = array[0];
             printf("biggest : %d count : %d\n\n", biggest, count);
-            output[(count-1) / (matrix_size - size + 1)][(count-1) % (matrix_size - size + 1)] = biggest;
+            output[(count - 1) / (matrix_size - size + 1)][(count - 1) % (matrix_size - size + 1)] = biggest;
 
         }
     }
@@ -88,7 +88,7 @@ int **partition(int **matrix, int size, int matrix_size) {
     return output;
 }
 
-int main() {
+void greatestInteger() {
     int dim;
     int i = 0;
     int j = 0;
@@ -114,5 +114,53 @@ int main() {
         }
         printf("\n");
     }
+}
+
+void printMatrix(int **matrix, int row, int coloumn) {
+
+    int i, j;
+    for (i = 0; i < row; i++) {
+        for (j = 0; j < coloumn; j++) {
+            printf("%d ", matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int **getMatrix(int row, int coloumn) {
+
+    int i, j;
+    int **matrix = multiArray(row, coloumn);
+    for (i = 0; i < row; i++) {
+        for (j = 0; j < coloumn; j++) {
+            scanf("%d ", *(matrix + i) + j);
+        }
+    }
+    return matrix;
+}
+
+int **translate(int **array, int *index1, int width, int height, int *index2) {
+
+    int x1 = index1[0];
+    int y1 = index1[1];
+    int x2 = index2[0];
+    int y2 = index2[1];
+
+    int i, j;
+    for (i = 0; i < width; i++) {
+        for (j = 0; j < height; j++) {
+            *(*(array + x2 + i) + j + y2) = *(*(array + x1 + i) + j + y1);
+        }
+    }
+    return array;
+}
+
+int main() {
+
+    int **matrix = getMatrix(5, 5);
+    int index1[] = {1, 1};
+    int index2[] = {2, 1};
+    matrix = translate(matrix, index1, 2, 2, index2);
+    printMatrix(matrix, 5, 5);
     return 0;
 }
